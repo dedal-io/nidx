@@ -1,5 +1,6 @@
 {
   "name": "nidx",
+  "version": "0.1.0",
   "description": "Validate and decode national ID numbers — extract structured data from government-issued personal IDs",
   "license": "MIT",
   "repository": {
@@ -22,10 +23,16 @@
     "wasm",
     "nid"
   ],
-  "scripts": {
-    "build": "wasm-pack build --target bundler --out-dir pkg",
-    "build:node": "wasm-pack build --target nodejs --out-dir pkg-node",
-    "build:web": "wasm-pack build --target web --out-dir pkg-web",
-    "test": "wasm-pack test --node"
-  }
+  "main": "nidx_wasm.js",
+  "types": "nidx_wasm.d.ts",
+  "files": [
+    "nidx_wasm.js",
+    "nidx_wasm.d.ts",
+    "nidx_wasm_bg.wasm",
+    "nidx_wasm_bg.wasm.d.ts",
+    "README.md"
+  ],
+  "sideEffects": [
+    "./nidx_wasm.js"
+  ]
 }

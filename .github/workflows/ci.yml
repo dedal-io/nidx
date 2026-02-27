@@ -96,12 +96,6 @@ jobs:
       - name: Install maturin and pytest
         run: pip install maturin pytest
 
-      - name: Copy README
-        shell: python
-        run: |
-          import shutil
-          shutil.copy("README.md", "bindings/python/README.md")
-
       - name: Build wheel
         run: maturin build --out dist
         working-directory: bindings/python
@@ -126,12 +120,18 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - uses: jetli/wasm-pack-action@v0.4.0
+      - name: Install wasm-bindgen-cli
+        run: cargo install wasm-bindgen-cli --version 0.2.113
 
       - name: Build
-        run: wasm-pack build --target bundler
-        working-directory: bindings/wasm
+        run: |
+          cargo build --lib --target wasm32-unknown-unknown --release -p nidx-wasm
+          wasm-bindgen target/wasm32-unknown-unknown/release/nidx_wasm.wasm \
+            --out-dir bindings/wasm/pkg \
+            --target bundler \
+            --typescript
 
       - name: Test (Node)
-        run: wasm-pack test --node
-        working-directory: bindings/wasm
+        run: cargo test --target wasm32-unknown-unknown -p nidx-wasm
+        env:
+          WASM_BINDGEN_TEST_ONLY_NODE: 1

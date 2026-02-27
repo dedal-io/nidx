@@ -21,8 +21,5 @@ dist/
 .DS_Store
 Thumbs.db
 
-# wasm-pack
+# wasm-bindgen output
 bindings/wasm/pkg/
-
-# Copied README for maturin sdist
-bindings/python/README.md
