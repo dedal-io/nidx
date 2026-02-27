@@ -86,6 +86,11 @@ pub struct Albania;
 
 #[wasm_bindgen]
 impl Albania {
+    /// Validate an Albanian National ID. Throws on invalid input.
+    pub fn validate(nid: &str) -> Result<(), JsError> {
+        nidx::albania::validate(nid).map_err(albania_to_js_error)
+    }
+
     /// Decode an Albanian National ID.
     pub fn decode(nid: &str) -> Result<NidInfo, JsError> {
         let info = nidx::albania::decode(nid).map_err(albania_to_js_error)?;

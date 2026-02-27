@@ -274,10 +274,31 @@ pub fn decode(nid: &str) -> Result<NidInfo, NidError> {
     })
 }
 
+/// Validate an Albanian National ID string, returning a [`NidError`] on failure.
+///
+/// This is equivalent to calling [`decode`] and discarding the result.
+///
+/// # Errors
+///
+/// Returns [`NidError::Format`] if the input has wrong length, illegal characters,
+/// or an unrecognised month code. Returns [`NidError::Checksum`] if the check digit
+/// does not match. Returns [`NidError::InvalidDate`] if the encoded date is not a
+/// valid calendar date.
+///
+/// # Examples
+///
+/// ```
+/// assert!(nidx::albania::validate("J00101999W").is_ok());
+/// assert!(nidx::albania::validate("invalid").is_err());
+/// ```
+#[inline]
+pub fn validate(nid: &str) -> Result<(), NidError> {
+    decode(nid).map(|_| ())
+}
+
 /// Check whether an Albanian National ID string is valid.
 ///
-/// This is a convenience wrapper around [`decode`] that discards the decoded
-/// information and returns a simple boolean.
+/// This is a convenience wrapper around [`validate`] that returns a simple boolean.
 ///
 /// # Examples
 ///
@@ -288,7 +309,7 @@ pub fn decode(nid: &str) -> Result<NidInfo, NidError> {
 #[inline]
 #[must_use]
 pub fn is_valid(nid: &str) -> bool {
-    decode(nid).is_ok()
+    validate(nid).is_ok()
 }
 
 #[cfg(test)]
@@ -336,6 +357,17 @@ mod tests {
         let info = decode("j00101999w").unwrap();
         assert_eq!(info.sex, Sex::Male);
         assert!(info.is_national);
+    }
+
+    #[test]
+    fn validate_valid() {
+        assert!(validate(VALID_NID).is_ok());
+    }
+
+    #[test]
+    fn validate_returns_error_on_invalid() {
+        let err = validate("invalid").unwrap_err();
+        assert_eq!(err, NidError::Format(FormatKind::InvalidLength));
     }
 
     #[test]

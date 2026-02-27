@@ -7,11 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.2] - 2026-02-27
+## [0.2.3] - 2026-02-27
+
+### Added
+
+- Albania: `validate()` function for error-returning validation without decoding, consistent with Kosovo's API.
 
 ### Fixed
 
 - Fix WASM CI/release build by overriding `rust-toolchain.toml` pin for WASM jobs.
+
+## [0.2.2] - 2026-02-27
+
+### Fixed
+
+- Attempt to fix WASM CI build (incomplete fix).
 
 ## [0.2.1] - 2026-02-27
 
@@ -44,7 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - JavaScript/WASM bindings via wasm-bindgen (published to npm as `nidx`).
 - Optional `serde` feature for serialization support.
 
-[Unreleased]: https://github.com/dedal-io/nidx/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/dedal-io/nidx/compare/v0.2.3...HEAD
+[0.2.3]: https://github.com/dedal-io/nidx/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/dedal-io/nidx/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/dedal-io/nidx/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/dedal-io/nidx/compare/v0.1.0...v0.2.0

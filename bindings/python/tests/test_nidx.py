@@ -76,6 +76,23 @@ class TestAlbaniaDecode:
         assert "1990-01-01" in r
 
 
+class TestAlbaniaValidate:
+    def test_valid(self):
+        albania.validate(VALID_NID)
+
+    def test_invalid_raises_value_error(self):
+        with pytest.raises(ValueError):
+            albania.validate("invalid")
+
+    def test_empty_raises_value_error(self):
+        with pytest.raises(ValueError):
+            albania.validate("")
+
+    def test_bad_checksum_raises_value_error(self):
+        with pytest.raises(ValueError):
+            albania.validate("J00101999A")
+
+
 class TestAlbaniaIsValid:
     def test_valid(self):
         assert albania.is_valid(VALID_NID) is True

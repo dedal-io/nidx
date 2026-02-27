@@ -103,6 +103,11 @@ fn albania_module(py: Python<'_>) -> PyResult<Bound<'_, PyModule>> {
     let m = PyModule::new(py, "albania")?;
 
     #[pyfunction]
+    fn validate(nid: &str) -> PyResult<()> {
+        nidx::albania::validate(nid).map_err(albania_to_py_err)
+    }
+
+    #[pyfunction]
     fn decode(nid: &str) -> PyResult<PyNidInfo> {
         let info = nidx::albania::decode(nid).map_err(albania_to_py_err)?;
         Ok(PyNidInfo {
@@ -121,6 +126,7 @@ fn albania_module(py: Python<'_>) -> PyResult<Bound<'_, PyModule>> {
         nidx::albania::is_valid(nid)
     }
 
+    m.add_function(wrap_pyfunction!(validate, &m)?)?;
     m.add_function(wrap_pyfunction!(decode, &m)?)?;
     m.add_function(wrap_pyfunction!(is_valid, &m)?)?;
     Ok(m)

@@ -36,11 +36,12 @@ console.log(info.year);       // 1990
 console.log(info.month);      // 1
 console.log(info.day);        // 1
 
+Albania.validate("J00101999W"); // throws on invalid input
 console.log(Albania.isValid("J00101999W")); // true
 console.log(Albania.isValid("invalid"));    // false
 ```
 
-`Albania.decode` throws on invalid input with an error code prefix: `[FORMAT]`, `[CHECKSUM]`, or `[INVALID_DATE]`.
+`Albania.validate` and `Albania.decode` throw on invalid input with an error code prefix: `[FORMAT]`, `[CHECKSUM]`, or `[INVALID_DATE]`.
 
 ### Kosovo
 
@@ -58,6 +59,8 @@ console.log(Kosovo.isValid("invalid"));    // false
 ## API
 
 ### Albania
+
+`Albania.validate(nid: string): void` — validates a 10-character Albanian NID. Throws on invalid input.
 
 `Albania.decode(nid: string): NidInfo` — validates and decodes a 10-character Albanian NID. Input is case-insensitive.
 

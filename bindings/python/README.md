@@ -38,11 +38,12 @@ print(info.year)        # 1990
 print(info.month)       # 1
 print(info.day)         # 1
 
+albania.validate("J00101999W")  # raises on invalid input
 assert albania.is_valid("J00101999W")
 assert not albania.is_valid("invalid")
 ```
 
-`decode` raises `NidFormatError`, `NidChecksumError`, or `NidInvalidDateError` on invalid input (all subclasses of `NidError`, which is a `ValueError`).
+`validate` and `decode` raise `NidFormatError`, `NidChecksumError`, or `NidInvalidDateError` on invalid input (all subclasses of `NidError`, which is a `ValueError`).
 
 ### Kosovo
 
@@ -58,6 +59,8 @@ assert not kosovo.is_valid("invalid")
 ## API
 
 ### Albania
+
+`albania.validate(nid: str) -> None` — validates a 10-character Albanian NID. Raises on invalid input.
 
 `albania.decode(nid: str) -> NidInfo` — validates and decodes a 10-character Albanian NID. Input is case-insensitive.
 

@@ -87,7 +87,7 @@ kosovo.validate("1234567892")  # raises on invalid input
 assert kosovo.is_valid("1234567892")
 ```
 
-`decode` raises `ValueError` on invalid input.
+`validate` and `decode` raise `ValueError` on invalid input.
 
 ### JavaScript
 
@@ -100,6 +100,7 @@ console.log(info.birthday);   // "1990-01-01"
 console.log(info.sex);        // "M"
 console.log(info.isNational); // true
 
+Albania.validate("J00101999W"); // throws on invalid input
 console.log(Albania.isValid("J00101999W")); // true
 
 // Kosovo: validation only
@@ -107,13 +108,15 @@ Kosovo.validate("1234567892"); // throws on invalid input
 console.log(Kosovo.isValid("1234567892")); // true
 ```
 
-`Albania.decode` throws on invalid input.
+`validate` and `decode` throw on invalid input.
 
 ## API
 
+Every country exposes `validate(nid)` and `is_valid(nid)`. Countries with extractable data also expose `decode(nid)`.
+
 ### Albania
 
-Each language exposes `decode(nid)` and `is_valid(nid)`.
+`albania::validate(nid)` checks a 10-character Albanian NID. Returns an error (or throws) on invalid input.
 
 `albania::decode(nid)` validates and decodes a 10-character Albanian NID string. Input is case-insensitive.
 
@@ -129,8 +132,6 @@ Each language exposes `decode(nid)` and `is_valid(nid)`.
 | National | `is_national: bool` | `is_national: bool` | `isNational: boolean` |
 
 ### Kosovo
-
-Each language exposes `validate(nid)` and `is_valid(nid)`.
 
 `kosovo::validate(nid)` checks a 10-digit Kosovo personal number. Returns an error (or throws) on invalid input.
 

@@ -123,6 +123,8 @@ jobs:
 
       - name: Install wasm-bindgen-cli
         run: cargo install wasm-bindgen-cli --version 0.2.113 --locked
+        env:
+          RUSTUP_TOOLCHAIN: stable
 
       - name: Build
         run: |

@@ -19,6 +19,17 @@ fn public_api_decode_returns_expected_info() {
 }
 
 #[test]
+fn public_api_validate_accepts_valid_nid() {
+    assert!(nidx::albania::validate("J00101999W").is_ok());
+}
+
+#[test]
+fn public_api_validate_returns_error_on_invalid() {
+    let err = nidx::albania::validate("short").unwrap_err();
+    assert_eq!(err, NidError::Format(FormatKind::InvalidLength));
+}
+
+#[test]
 fn public_api_is_valid_accepts_valid_nid() {
     assert!(nidx::albania::is_valid("J00101999W"));
 }

@@ -64,6 +64,21 @@ fn albania_decode_empty_returns_format_error() {
 }
 
 #[wasm_bindgen_test]
+fn albania_validate_valid() {
+    Albania::validate("J00101999W").unwrap();
+}
+
+#[wasm_bindgen_test]
+fn albania_validate_invalid_returns_error() {
+    let err = Albania::validate("invalid").unwrap_err();
+    let msg = format!("{err:?}");
+    assert!(
+        msg.contains("[FORMAT]"),
+        "expected FORMAT error, got: {msg}"
+    );
+}
+
+#[wasm_bindgen_test]
 fn albania_is_valid_accepts_valid() {
     assert!(Albania::is_valid("J00101999W"));
 }
