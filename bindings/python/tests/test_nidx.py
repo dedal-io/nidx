@@ -1,6 +1,6 @@
 import pytest
 
-from nidx import NidInfo, albania
+from nidx import NidInfo, albania, kosovo
 
 VALID_NID = "J00101999W"
 
@@ -95,3 +95,45 @@ class TestNidInfoFrozen:
         info = albania.decode(VALID_NID)
         with pytest.raises(AttributeError):
             info.birthday = "2000-01-01"
+
+
+# ── Kosovo ───────────────────────────────────────────────────────────────────
+
+VALID_KOSOVO_NID = "1234567892"
+
+
+class TestKosovoIsValid:
+    def test_valid(self):
+        assert kosovo.is_valid(VALID_KOSOVO_NID) is True
+
+    def test_invalid(self):
+        assert kosovo.is_valid("invalid") is False
+
+    def test_empty(self):
+        assert kosovo.is_valid("") is False
+
+    def test_bad_checksum(self):
+        assert kosovo.is_valid("1234567890") is False
+
+    def test_prefix_9_bypasses_checksum(self):
+        assert kosovo.is_valid("9000000001") is True
+
+
+class TestKosovoValidate:
+    def test_valid(self):
+        kosovo.validate(VALID_KOSOVO_NID)
+
+    def test_prefix_9_bypasses_checksum(self):
+        kosovo.validate("9000000001")
+
+    def test_invalid_raises_value_error(self):
+        with pytest.raises(ValueError):
+            kosovo.validate("invalid")
+
+    def test_empty_raises_value_error(self):
+        with pytest.raises(ValueError):
+            kosovo.validate("")
+
+    def test_bad_checksum_raises_value_error(self):
+        with pytest.raises(ValueError):
+            kosovo.validate("1234567890")

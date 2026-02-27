@@ -1,18 +1,20 @@
 use proptest::prelude::*;
 
 proptest! {
+    // ── Albania ─────────────────────────────────────────────────────────
+
     #[test]
-    fn decode_never_panics(s in "\\PC{0,20}") {
+    fn albania_decode_never_panics(s in "\\PC{0,20}") {
         let _ = nidx::albania::decode(&s);
     }
 
     #[test]
-    fn is_valid_agrees_with_decode(s in "\\PC{0,20}") {
+    fn albania_is_valid_agrees_with_decode(s in "\\PC{0,20}") {
         assert_eq!(nidx::albania::is_valid(&s), nidx::albania::decode(&s).is_ok());
     }
 
     #[test]
-    fn valid_nids_roundtrip(
+    fn albania_valid_nids_roundtrip(
         decade in 0usize..30,
         year_digit in 0u8..10,
         month_range_idx in 0usize..4,
@@ -65,5 +67,57 @@ proptest! {
                 assert!(!nidx::albania::is_valid(&nid));
             }
         }
+    }
+
+    // ── Kosovo ──────────────────────────────────────────────────────────
+
+    #[test]
+    fn kosovo_validate_never_panics(s in "\\PC{0,20}") {
+        let _ = nidx::kosovo::validate(&s);
+    }
+
+    #[test]
+    fn kosovo_is_valid_agrees_with_validate(s in "\\PC{0,20}") {
+        assert_eq!(nidx::kosovo::is_valid(&s), nidx::kosovo::validate(&s).is_ok());
+    }
+
+    #[test]
+    fn kosovo_valid_nids_roundtrip(
+        digits in proptest::collection::vec(0u8..10, 9),
+    ) {
+        const WEIGHTS: [u8; 9] = [4, 3, 2, 7, 6, 5, 4, 3, 2];
+
+        let sum: u16 = digits
+            .iter()
+            .zip(WEIGHTS.iter())
+            .map(|(&d, &w)| d as u16 * w as u16)
+            .sum();
+
+        let mut check = 11 - (sum % 11);
+        if check >= 10 {
+            check = 0;
+        }
+
+        let nid: String = digits
+            .iter()
+            .map(|d| (b'0' + d) as char)
+            .chain(std::iter::once((b'0' + check as u8) as char))
+            .collect();
+
+        assert!(nidx::kosovo::is_valid(&nid), "expected valid: {nid}");
+        assert!(nidx::kosovo::validate(&nid).is_ok());
+    }
+
+    #[test]
+    fn kosovo_prefix_9_always_valid(
+        digits in proptest::collection::vec(0u8..10, 9),
+    ) {
+        let nid: String = std::iter::once('9')
+            .chain(digits.iter().take(8).map(|d| (b'0' + d) as char))
+            .chain(std::iter::once((b'0' + digits[8]) as char))
+            .collect();
+
+        assert!(nidx::kosovo::is_valid(&nid), "prefix-9 should always be valid: {nid}");
+        assert!(nidx::kosovo::validate(&nid).is_ok());
     }
 }

@@ -9,6 +9,7 @@
 //! | Country | Module |
 //! |---------|--------|
 //! | Albania | [`albania`] |
+//! | Kosovo  | [`kosovo`]  |
 //!
 //! # Examples
 //!
@@ -27,4 +28,5 @@ mod types;
 pub mod country;
 
 pub use country::albania;
+pub use country::kosovo;
 pub use types::{Date, Sex};

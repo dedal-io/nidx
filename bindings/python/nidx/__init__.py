@@ -7,10 +7,12 @@ from ._nidx import (
     NidInfo,
     NidInvalidDateError,
     albania,
+    kosovo,
 )
 
 __all__ = [
     "albania",
+    "kosovo",
     "NidInfo",
     "NidError",
     "NidFormatError",

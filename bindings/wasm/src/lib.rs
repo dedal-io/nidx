@@ -98,3 +98,26 @@ pub fn albania_decode(nid: &str) -> Result<NidInfo, JsError> {
 pub fn albania_is_valid(nid: &str) -> bool {
     nidx::albania::is_valid(nid)
 }
+
+// ── Kosovo ──────────────────────────────────────────────────────────────────
+
+fn kosovo_to_js_error(e: nidx::kosovo::NidError) -> JsError {
+    let code = match &e {
+        nidx::kosovo::NidError::Format(_) => "FORMAT",
+        nidx::kosovo::NidError::Checksum => "CHECKSUM",
+        _ => "UNKNOWN",
+    };
+    JsError::new(&format!("[{code}] {e}"))
+}
+
+/// Validate a Kosovo personal number. Throws on invalid input.
+#[wasm_bindgen(js_name = "kosovoValidate")]
+pub fn kosovo_validate(nid: &str) -> Result<(), JsError> {
+    nidx::kosovo::validate(nid).map_err(kosovo_to_js_error)
+}
+
+/// Check whether a Kosovo personal number string is valid.
+#[wasm_bindgen(js_name = "kosovoIsValid")]
+pub fn kosovo_is_valid(nid: &str) -> bool {
+    nidx::kosovo::is_valid(nid)
+}

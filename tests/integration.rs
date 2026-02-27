@@ -122,3 +122,45 @@ fn all_sex_and_national_status_combinations() {
     assert_eq!(info.sex, Sex::Female);
     assert!(!info.is_national);
 }
+
+// ── Kosovo ──────────────────────────────────────────────────────────────────
+
+#[test]
+fn kosovo_is_valid_accepts_valid() {
+    assert!(nidx::kosovo::is_valid("1234567892"));
+}
+
+#[test]
+fn kosovo_is_valid_rejects_invalid() {
+    assert!(!nidx::kosovo::is_valid(""));
+    assert!(!nidx::kosovo::is_valid("1234567890"));
+    assert!(!nidx::kosovo::is_valid("ABCDEFGHIJ"));
+}
+
+#[test]
+fn kosovo_prefix_9_bypasses_checksum() {
+    assert!(nidx::kosovo::is_valid("9000000001"));
+    assert!(nidx::kosovo::validate("9000000001").is_ok());
+}
+
+#[test]
+fn kosovo_validate_returns_format_error_for_wrong_length() {
+    let err = nidx::kosovo::validate("12345").unwrap_err();
+    assert_eq!(
+        err,
+        nidx::kosovo::NidError::Format(nidx::kosovo::FormatKind::InvalidLength)
+    );
+    assert!(err.to_string().contains("format error"));
+}
+
+#[test]
+fn kosovo_validate_returns_checksum_error() {
+    let err = nidx::kosovo::validate("1234567890").unwrap_err();
+    assert!(matches!(err, nidx::kosovo::NidError::Checksum));
+}
+
+#[test]
+fn kosovo_error_type_implements_std_error() {
+    fn assert_error<T: std::error::Error>() {}
+    assert_error::<nidx::kosovo::NidError>();
+}

@@ -72,6 +72,32 @@ fn albania_to_py_err(e: nidx::albania::NidError) -> PyErr {
     }
 }
 
+/// Submodule for Kosovo personal number operations.
+fn kosovo_module(py: Python<'_>) -> PyResult<Bound<'_, PyModule>> {
+    let m = PyModule::new(py, "kosovo")?;
+
+    #[pyfunction]
+    fn is_valid(nid: &str) -> bool {
+        nidx::kosovo::is_valid(nid)
+    }
+
+    #[pyfunction]
+    fn validate(nid: &str) -> PyResult<()> {
+        nidx::kosovo::validate(nid).map_err(|e| {
+            let msg = e.to_string();
+            match e {
+                nidx::kosovo::NidError::Format(_) => NidFormatError::new_err(msg),
+                nidx::kosovo::NidError::Checksum => NidChecksumError::new_err(msg),
+                _ => NidError::new_err(msg),
+            }
+        })
+    }
+
+    m.add_function(wrap_pyfunction!(is_valid, &m)?)?;
+    m.add_function(wrap_pyfunction!(validate, &m)?)?;
+    Ok(m)
+}
+
 /// Submodule for Albanian NID operations.
 fn albania_module(py: Python<'_>) -> PyResult<Bound<'_, PyModule>> {
     let m = PyModule::new(py, "albania")?;
@@ -105,6 +131,8 @@ fn _nidx(m: &Bound<'_, PyModule>) -> PyResult<()> {
     let py = m.py();
     let albania = albania_module(py)?;
     m.add_submodule(&albania)?;
+    let kosovo = kosovo_module(py)?;
+    m.add_submodule(&kosovo)?;
 
     m.add_class::<PyNidInfo>()?;
     m.add("NidError", py.get_type::<NidError>())?;

@@ -1,6 +1,6 @@
 use criterion::{Criterion, black_box, criterion_group, criterion_main};
 
-fn bench_decode(c: &mut Criterion) {
+fn bench_albania(c: &mut Criterion) {
     c.bench_function("albania::decode valid", |b| {
         b.iter(|| nidx::albania::decode(black_box("J00101999W")))
     });
@@ -22,5 +22,27 @@ fn bench_decode(c: &mut Criterion) {
     });
 }
 
-criterion_group!(benches, bench_decode);
+fn bench_kosovo(c: &mut Criterion) {
+    c.bench_function("kosovo::validate valid", |b| {
+        b.iter(|| nidx::kosovo::validate(black_box("1234567892")))
+    });
+
+    c.bench_function("kosovo::validate prefix-9 bypass", |b| {
+        b.iter(|| nidx::kosovo::validate(black_box("9000000001")))
+    });
+
+    c.bench_function("kosovo::validate invalid (short)", |b| {
+        b.iter(|| nidx::kosovo::validate(black_box("short")))
+    });
+
+    c.bench_function("kosovo::validate invalid (bad checksum)", |b| {
+        b.iter(|| nidx::kosovo::validate(black_box("1234567890")))
+    });
+
+    c.bench_function("kosovo::is_valid", |b| {
+        b.iter(|| nidx::kosovo::is_valid(black_box("1234567892")))
+    });
+}
+
+criterion_group!(benches, bench_albania, bench_kosovo);
 criterion_main!(benches);
