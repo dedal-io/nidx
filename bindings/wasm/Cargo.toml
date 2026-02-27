@@ -1,6 +1,6 @@
 [package]
 name = "nidx-wasm"
-version = "0.2.3"
+version = "0.2.6"
 edition = "2024"
 description = "Validate and decode national ID numbers — extract structured data from government-issued personal IDs"
 license = "MIT"

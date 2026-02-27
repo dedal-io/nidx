@@ -449,7 +449,7 @@ dependencies = [
 
 [[package]]
 name = "nidx"
-version = "0.2.5"
+version = "0.2.6"
 dependencies = [
  "criterion",
  "proptest",
@@ -459,7 +459,7 @@ dependencies = [
 
 [[package]]
 name = "nidx-python"
-version = "0.2.3"
+version = "0.2.6"
 dependencies = [
  "nidx",
  "pyo3",
@@ -467,7 +467,7 @@ dependencies = [
 
 [[package]]
 name = "nidx-wasm"
-version = "0.2.3"
+version = "0.2.6"
 dependencies = [
  "js-sys",
  "nidx",

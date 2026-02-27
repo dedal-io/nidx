@@ -1,6 +1,6 @@
 {
   "name": "nidx",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Validate and decode national ID numbers — extract structured data from government-issued personal IDs",
   "license": "MIT",
   "repository": {
