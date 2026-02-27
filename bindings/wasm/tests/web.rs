@@ -1,8 +1,9 @@
+use nidx_wasm::{Albania, Kosovo};
 use wasm_bindgen_test::*;
 
 #[wasm_bindgen_test]
 fn albania_decode_valid_nid() {
-    let info = nidx_wasm::albania_decode("J00101999W").unwrap();
+    let info = Albania::decode("J00101999W").unwrap();
     assert_eq!(info.country(), "albania");
     assert_eq!(info.birthday(), "1990-01-01");
     assert_eq!(info.sex(), "M");
@@ -14,7 +15,7 @@ fn albania_decode_valid_nid() {
 
 #[wasm_bindgen_test]
 fn albania_decode_female_albanian() {
-    let info = nidx_wasm::albania_decode("J05115999K").unwrap();
+    let info = Albania::decode("J05115999K").unwrap();
     assert_eq!(info.birthday(), "1990-01-15");
     assert_eq!(info.sex(), "F");
     assert!(info.is_national());
@@ -22,7 +23,7 @@ fn albania_decode_female_albanian() {
 
 #[wasm_bindgen_test]
 fn albania_decode_male_foreigner() {
-    let info = nidx_wasm::albania_decode("J03101999F").unwrap();
+    let info = Albania::decode("J03101999F").unwrap();
     assert_eq!(info.birthday(), "1990-01-01");
     assert_eq!(info.sex(), "M");
     assert!(!info.is_national());
@@ -30,7 +31,7 @@ fn albania_decode_male_foreigner() {
 
 #[wasm_bindgen_test]
 fn albania_decode_female_foreigner() {
-    let info = nidx_wasm::albania_decode("J08101999P").unwrap();
+    let info = Albania::decode("J08101999P").unwrap();
     assert_eq!(info.birthday(), "1990-01-01");
     assert_eq!(info.sex(), "F");
     assert!(!info.is_national());
@@ -38,13 +39,13 @@ fn albania_decode_female_foreigner() {
 
 #[wasm_bindgen_test]
 fn albania_decode_case_insensitive() {
-    let info = nidx_wasm::albania_decode("j00101999w").unwrap();
+    let info = Albania::decode("j00101999w").unwrap();
     assert_eq!(info.birthday(), "1990-01-01");
 }
 
 #[wasm_bindgen_test]
 fn albania_decode_invalid_returns_format_error() {
-    let err = nidx_wasm::albania_decode("invalid").unwrap_err();
+    let err = Albania::decode("invalid").unwrap_err();
     let msg = format!("{err:?}");
     assert!(
         msg.contains("[FORMAT]"),
@@ -54,7 +55,7 @@ fn albania_decode_invalid_returns_format_error() {
 
 #[wasm_bindgen_test]
 fn albania_decode_empty_returns_format_error() {
-    let err = nidx_wasm::albania_decode("").unwrap_err();
+    let err = Albania::decode("").unwrap_err();
     let msg = format!("{err:?}");
     assert!(
         msg.contains("[FORMAT]"),
@@ -64,31 +65,31 @@ fn albania_decode_empty_returns_format_error() {
 
 #[wasm_bindgen_test]
 fn albania_is_valid_accepts_valid() {
-    assert!(nidx_wasm::albania_is_valid("J00101999W"));
+    assert!(Albania::is_valid("J00101999W"));
 }
 
 #[wasm_bindgen_test]
 fn albania_is_valid_rejects_invalid() {
-    assert!(!nidx_wasm::albania_is_valid("invalid"));
-    assert!(!nidx_wasm::albania_is_valid(""));
-    assert!(!nidx_wasm::albania_is_valid("J00101999A"));
+    assert!(!Albania::is_valid("invalid"));
+    assert!(!Albania::is_valid(""));
+    assert!(!Albania::is_valid("J00101999A"));
 }
 
 // ── Kosovo ──────────────────────────────────────────────────────────────────
 
 #[wasm_bindgen_test]
 fn kosovo_validate_valid() {
-    nidx_wasm::kosovo_validate("1234567892").unwrap();
+    Kosovo::validate("1234567892").unwrap();
 }
 
 #[wasm_bindgen_test]
 fn kosovo_validate_prefix_9_bypasses_checksum() {
-    nidx_wasm::kosovo_validate("9000000001").unwrap();
+    Kosovo::validate("9000000001").unwrap();
 }
 
 #[wasm_bindgen_test]
 fn kosovo_validate_invalid_returns_format_error() {
-    let err = nidx_wasm::kosovo_validate("invalid").unwrap_err();
+    let err = Kosovo::validate("invalid").unwrap_err();
     let msg = format!("{err:?}");
     assert!(
         msg.contains("[FORMAT]"),
@@ -98,7 +99,7 @@ fn kosovo_validate_invalid_returns_format_error() {
 
 #[wasm_bindgen_test]
 fn kosovo_validate_empty_returns_format_error() {
-    let err = nidx_wasm::kosovo_validate("").unwrap_err();
+    let err = Kosovo::validate("").unwrap_err();
     let msg = format!("{err:?}");
     assert!(
         msg.contains("[FORMAT]"),
@@ -108,7 +109,7 @@ fn kosovo_validate_empty_returns_format_error() {
 
 #[wasm_bindgen_test]
 fn kosovo_validate_bad_checksum_returns_checksum_error() {
-    let err = nidx_wasm::kosovo_validate("1234567890").unwrap_err();
+    let err = Kosovo::validate("1234567890").unwrap_err();
     let msg = format!("{err:?}");
     assert!(
         msg.contains("[CHECKSUM]"),
@@ -118,17 +119,17 @@ fn kosovo_validate_bad_checksum_returns_checksum_error() {
 
 #[wasm_bindgen_test]
 fn kosovo_is_valid_accepts_valid() {
-    assert!(nidx_wasm::kosovo_is_valid("1234567892"));
+    assert!(Kosovo::is_valid("1234567892"));
 }
 
 #[wasm_bindgen_test]
 fn kosovo_is_valid_prefix_9_accepted() {
-    assert!(nidx_wasm::kosovo_is_valid("9000000001"));
+    assert!(Kosovo::is_valid("9000000001"));
 }
 
 #[wasm_bindgen_test]
 fn kosovo_is_valid_rejects_invalid() {
-    assert!(!nidx_wasm::kosovo_is_valid("invalid"));
-    assert!(!nidx_wasm::kosovo_is_valid(""));
-    assert!(!nidx_wasm::kosovo_is_valid("1234567890"));
+    assert!(!Kosovo::is_valid("invalid"));
+    assert!(!Kosovo::is_valid(""));
+    assert!(!Kosovo::is_valid("1234567890"));
 }

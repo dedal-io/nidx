@@ -16,19 +16,19 @@ npm install nidx
 
 ## Supported countries
 
-| Country | Functions | Extracted fields |
+| Country | Namespace | Extracted fields |
 |---------|-----------|-----------------|
-| Albania | `albaniaDecode`, `albaniaIsValid` | Date of birth, sex, national status |
-| Kosovo  | `kosovoValidate`, `kosovoIsValid` | Validation only |
+| Albania | `Albania` | Date of birth, sex, national status |
+| Kosovo  | `Kosovo`  | Validation only |
 
 ## Usage
 
 ### Albania
 
-```javascript
-import { albaniaDecode, albaniaIsValid } from "nidx";
+```typescript
+import { Albania } from "nidx";
 
-const info = albaniaDecode("J00101999W");
+const info = Albania.decode("J00101999W");
 console.log(info.birthday);   // "1990-01-01"
 console.log(info.sex);        // "M"
 console.log(info.isNational); // true
@@ -36,30 +36,30 @@ console.log(info.year);       // 1990
 console.log(info.month);      // 1
 console.log(info.day);        // 1
 
-console.log(albaniaIsValid("J00101999W")); // true
-console.log(albaniaIsValid("invalid"));    // false
+console.log(Albania.isValid("J00101999W")); // true
+console.log(Albania.isValid("invalid"));    // false
 ```
 
-`albaniaDecode` throws on invalid input with an error code prefix: `[FORMAT]`, `[CHECKSUM]`, or `[INVALID_DATE]`.
+`Albania.decode` throws on invalid input with an error code prefix: `[FORMAT]`, `[CHECKSUM]`, or `[INVALID_DATE]`.
 
 ### Kosovo
 
-```javascript
-import { kosovoValidate, kosovoIsValid } from "nidx";
+```typescript
+import { Kosovo } from "nidx";
 
-kosovoValidate("1234567892"); // throws on invalid input
+Kosovo.validate("1234567892"); // throws on invalid input
 
-console.log(kosovoIsValid("1234567892")); // true
-console.log(kosovoIsValid("invalid"));    // false
+console.log(Kosovo.isValid("1234567892")); // true
+console.log(Kosovo.isValid("invalid"));    // false
 ```
 
-`kosovoValidate` throws on invalid input with an error code prefix: `[FORMAT]` or `[CHECKSUM]`.
+`Kosovo.validate` throws on invalid input with an error code prefix: `[FORMAT]` or `[CHECKSUM]`.
 
 ## API
 
 ### Albania
 
-`albaniaDecode(nid: string): NidInfo` — validates and decodes a 10-character Albanian NID. Input is case-insensitive.
+`Albania.decode(nid: string): NidInfo` — validates and decodes a 10-character Albanian NID. Input is case-insensitive.
 
 | Property | Type | Description |
 |----------|------|-------------|
@@ -72,13 +72,13 @@ console.log(kosovoIsValid("invalid"));    // false
 
 `NidInfo` also has a `toJSON()` method that returns a plain object.
 
-`albaniaIsValid(nid: string): boolean` — returns `true` if the NID is valid.
+`Albania.isValid(nid: string): boolean` — returns `true` if the NID is valid.
 
 ### Kosovo
 
-`kosovoValidate(nid: string): void` — validates a 10-digit Kosovo personal number. Throws on invalid input.
+`Kosovo.validate(nid: string): void` — validates a 10-digit Kosovo personal number. Throws on invalid input.
 
-`kosovoIsValid(nid: string): boolean` — returns `true` if the personal number is valid.
+`Kosovo.isValid(nid: string): boolean` — returns `true` if the personal number is valid.
 
 ## License
 
