@@ -5,14 +5,14 @@ resolver = "2"
 
 [package]
 name = "nidx"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.85"
 authors = ["Dedal <contact@dedal.io>"]
 license = "MIT"
 description = "Validate and decode national ID numbers — extract structured data from government-issued personal IDs"
 repository = "https://github.com/dedal-io/nidx"
-keywords = ["national-id", "id-number", "personal-id", "albania", "decoder"]
+keywords = ["national-id", "id-number", "personal-id", "albania", "kosovo"]
 categories = ["parser-implementations"]
 
 [features]
