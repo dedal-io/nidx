@@ -1,0 +1,31 @@
+{
+  "name": "nidx",
+  "description": "Validate and decode national ID numbers — extract structured data from government-issued personal IDs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dedal-io/nidx",
+    "directory": "bindings/wasm"
+  },
+  "homepage": "https://github.com/dedal-io/nidx",
+  "bugs": {
+    "url": "https://github.com/dedal-io/nidx/issues"
+  },
+  "keywords": [
+    "national-id",
+    "id-number",
+    "personal-id",
+    "albania",
+    "decoder",
+    "validation",
+    "identity-document",
+    "wasm",
+    "nid"
+  ],
+  "scripts": {
+    "build": "wasm-pack build --target bundler --out-dir pkg",
+    "build:node": "wasm-pack build --target nodejs --out-dir pkg-node",
+    "build:web": "wasm-pack build --target web --out-dir pkg-web",
+    "test": "wasm-pack test --node"
+  }
+}

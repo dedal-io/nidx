@@ -1,0 +1,33 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "nidx"
+dynamic = ["version"]
+description = "Validate and decode national ID numbers — extract structured data from government-issued personal IDs"
+readme = "../../README.md"
+license = "MIT"
+requires-python = ">=3.9"
+keywords = ["national-id", "id-number", "personal-id", "albania", "decoder", "validation", "identity-document", "nid"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Rust",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Text Processing :: General",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/dedal-io/nidx"
+Repository = "https://github.com/dedal-io/nidx"
+Issues = "https://github.com/dedal-io/nidx/issues"
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+module-name = "nidx._nidx"

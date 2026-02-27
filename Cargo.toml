@@ -1,0 +1,32 @@
+[workspace]
+members = [".", "bindings/python", "bindings/wasm"]
+default-members = ["."]
+resolver = "2"
+
+[package]
+name = "nidx"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+authors = ["Dedal <contact@dedal.io>"]
+license = "MIT"
+description = "Validate and decode national ID numbers — extract structured data from government-issued personal IDs"
+repository = "https://github.com/dedal-io/nidx"
+keywords = ["national-id", "id-number", "personal-id", "albania", "decoder"]
+categories = ["parser-implementations"]
+
+[features]
+default = []
+serde = ["dep:serde"]
+
+[dependencies]
+serde = { version = "1", optional = true, features = ["derive"] }
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+proptest = "1"
+serde_json = "1"
+
+[[bench]]
+name = "decode"
+harness = false

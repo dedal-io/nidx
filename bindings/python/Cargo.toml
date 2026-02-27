@@ -1,0 +1,13 @@
+[package]
+name = "nidx-python"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+name = "_nidx"
+crate-type = ["cdylib"]
+
+[dependencies]
+nidx = { path = "../.." }
+pyo3 = { version = "0.28.2", features = ["extension-module"] }
