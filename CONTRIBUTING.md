@@ -7,7 +7,7 @@ Thank you for your interest in contributing! This document explains how to get s
 - [Rust](https://rustup.rs/) 1.85 or later
 - [Python](https://www.python.org/) 3.9+ (for Python bindings)
 - [Node.js](https://nodejs.org/) 22+ (for WASM bindings)
-- [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) (for WASM bindings)
+- [wasm-bindgen-cli](https://rustwasm.github.io/wasm-bindgen/) (for WASM bindings)
 - [maturin](https://github.com/PyO3/maturin) (for Python bindings)
 
 ## Building
@@ -31,9 +31,8 @@ pytest tests/
 ### WASM bindings
 
 ```sh
-cd bindings/wasm
-wasm-pack build --target bundler
-wasm-pack test --node
+cargo build --lib --target wasm32-unknown-unknown -p nidx-wasm
+cargo test --target wasm32-unknown-unknown -p nidx-wasm
 ```
 
 ## Adding a new country

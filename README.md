@@ -15,6 +15,7 @@ The core library is written in Rust with zero dependencies and provides bindings
 | Country | Module | Extracted fields |
 |---------|--------|-----------------|
 | Albania | `albania` | Date of birth, sex, national status |
+| Kosovo  | `kosovo`  | Validation only |
 
 ## Installation
 
@@ -22,14 +23,14 @@ The core library is written in Rust with zero dependencies and provides bindings
 
 ```toml
 [dependencies]
-nidx = "0.1"
+nidx = "0.2"
 ```
 
 Optional [serde](https://serde.rs/) support:
 
 ```toml
 [dependencies]
-nidx = { version = "0.1", features = ["serde"] }
+nidx = { version = "0.2", features = ["serde"] }
 ```
 
 ### Python
@@ -50,62 +51,69 @@ npm install nidx
 
 ```rust
 use nidx::albania;
+use nidx::kosovo;
 use nidx::Sex;
 
 fn main() {
+    // Albania: decode extracts structured data
     let info = albania::decode("J00101999W").unwrap();
     println!("{}", info.birthday);   // 1990-01-01
     println!("{}", info.sex);        // M
     println!("{}", info.is_national); // true
 
     assert!(albania::is_valid("J00101999W"));
-    assert!(!albania::is_valid("invalid"));
+
+    // Kosovo: validation only
+    assert!(kosovo::validate("1234567892").is_ok());
+    assert!(kosovo::is_valid("1234567892"));
 }
 ```
 
 ### Python
 
 ```python
-from nidx import albania
+from nidx import albania, kosovo
 
+# Albania: decode extracts structured data
 info = albania.decode("J00101999W")
 print(info.birthday)    # 1990-01-01
 print(info.sex)         # M
 print(info.is_national) # True
-print(info.year)        # 1990
-print(info.month)       # 1
-print(info.day)         # 1
 
 assert albania.is_valid("J00101999W")
-assert not albania.is_valid("invalid")
+
+# Kosovo: validation only
+kosovo.validate("1234567892")  # raises on invalid input
+assert kosovo.is_valid("1234567892")
 ```
 
 `decode` raises `ValueError` on invalid input.
 
 ### JavaScript
 
-```javascript
-import { albaniaDecode, albaniaIsValid } from "nidx";
+```typescript
+import { Albania, Kosovo } from "nidx";
 
-const info = albaniaDecode("J00101999W");
+// Albania: decode extracts structured data
+const info = Albania.decode("J00101999W");
 console.log(info.birthday);   // "1990-01-01"
 console.log(info.sex);        // "M"
 console.log(info.isNational); // true
-console.log(info.year);       // 1990
-console.log(info.month);      // 1
-console.log(info.day);        // 1
 
-console.log(albaniaIsValid("J00101999W")); // true
-console.log(albaniaIsValid("invalid"));    // false
+console.log(Albania.isValid("J00101999W")); // true
+
+// Kosovo: validation only
+Kosovo.validate("1234567892"); // throws on invalid input
+console.log(Kosovo.isValid("1234567892")); // true
 ```
 
-`albaniaDecode` throws on invalid input.
+`Albania.decode` throws on invalid input.
 
 ## API
 
-Each country module exposes `decode(nid) -> NidInfo` and `is_valid(nid) -> bool`.
-
 ### Albania
+
+Each language exposes `decode(nid)` and `is_valid(nid)`.
 
 `albania::decode(nid)` validates and decodes a 10-character Albanian NID string. Input is case-insensitive.
 
@@ -119,6 +127,12 @@ Each country module exposes `decode(nid) -> NidInfo` and `is_valid(nid) -> bool`
 | Day | `birthday.day: u8` | `day: int` | `day: number` |
 | Sex | `sex: Sex` | `sex: str` | `sex: string` |
 | National | `is_national: bool` | `is_national: bool` | `isNational: boolean` |
+
+### Kosovo
+
+Each language exposes `validate(nid)` and `is_valid(nid)`.
+
+`kosovo::validate(nid)` checks a 10-digit Kosovo personal number. Returns an error (or throws) on invalid input.
 
 ## Contributing
 

@@ -83,7 +83,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Install wasm-bindgen-cli
-        run: cargo install wasm-bindgen-cli --version 0.2.113
+        run: cargo install wasm-bindgen-cli --version 0.2.113 --locked
 
       - name: Build wasm
         run: cargo build --lib --target wasm32-unknown-unknown --release -p nidx-wasm
