@@ -96,6 +96,12 @@ jobs:
       - name: Install maturin and pytest
         run: pip install maturin pytest
 
+      - name: Copy README
+        shell: python
+        run: |
+          import shutil
+          shutil.copy("README.md", "bindings/python/README.md")
+
       - name: Build wheel
         run: maturin build --out dist
         working-directory: bindings/python

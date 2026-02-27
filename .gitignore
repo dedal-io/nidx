@@ -23,3 +23,6 @@ Thumbs.db
 
 # wasm-pack
 bindings/wasm/pkg/
+
+# Copied README for maturin sdist
+bindings/python/README.md

@@ -35,6 +35,12 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Copy README
+        shell: python
+        run: |
+          import shutil
+          shutil.copy("README.md", "bindings/python/README.md")
+
       - name: Build wheels
         uses: PyO3/maturin-action@v1
         with:
